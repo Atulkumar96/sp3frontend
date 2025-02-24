@@ -1,11 +1,11 @@
 <div class="inline-text-editor-main-container">
-  <div class="navigate-to-dashboard-btn">
+  <!-- <div class="navigate-to-dashboard-btn">
     <button mat-button (click)="backToDashboard()">Back</button>
-  </div>
+  </div> -->
   <ejs-documenteditorcontainer
     #document_editor
     serviceUrl="http://localhost:8080/api/inlineDocumentService/"
-    height="calc(100% - 21px)"
+    height="100%"
     [toolbarItems]="items"
     (toolbarClick)="onToolbarClick($event)"
     style="display: block"

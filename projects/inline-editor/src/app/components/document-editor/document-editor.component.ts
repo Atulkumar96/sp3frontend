@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import {
   CustomToolbarItemModel,
   DocumentEditorContainerComponent,
@@ -16,7 +16,7 @@ import { userDetails } from 'projects/inline-editor/src/constants/userMockData';
 export class DocumentEditorComponent implements OnInit, AfterViewInit {
   @ViewChild('document_editor')
   public container!: DocumentEditorContainerComponent;
-
+  private history: string[] = [];
   //Custom toolbat item.
   public toolSaveItem: CustomToolbarItemModel = {
     prefixIcon: 'e-save',
@@ -49,17 +49,13 @@ export class DocumentEditorComponent implements OnInit, AfterViewInit {
     id: 'rejectChange',
   };
 
-  public items = [
+  public items: any = [
     'New',
     'Open',
     this.toolSaveItem,
-    this.toolApproveItem,
     'Separator',
     'Undo',
     'Redo',
-    // this.toolTrackItem,
-    // this.toolAcceptItem,
-    // this.toolRejectItem,
     'Separator',
     'Image',
     'Table',
@@ -89,7 +85,13 @@ export class DocumentEditorComponent implements OnInit, AfterViewInit {
   ];
   public userInfo: any = {};
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router) {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.history.push(event.urlAfterRedirects);
+      }
+    });
+  }
 
   ngOnInit(): void {
     this.getUserDetails();
@@ -99,6 +101,10 @@ export class DocumentEditorComponent implements OnInit, AfterViewInit {
   getUserDetails() {
     userDetails().then((res: any) => {
       this.userInfo = res;
+      if (this.userInfo.approver) {
+        this.items.splice(3, 0, this.toolApproveItem);
+        this.container.refresh();
+      }
     });
   }
 
@@ -185,7 +191,7 @@ export class DocumentEditorComponent implements OnInit, AfterViewInit {
         type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
       });
       let formdata = new FormData();
-      formdata.append('files', blob);
+      formdata.append('files', file);
       formdata.append('approverName', this.userInfo.userName);
 
       this.http
@@ -195,6 +201,8 @@ export class DocumentEditorComponent implements OnInit, AfterViewInit {
         .subscribe(
           (sfdt: string) => {
             this.container.documentEditor.open(sfdt);
+            alert('Document has approved!');
+            // this.backToDashboard();
           },
           (error: any) => {
             console.error('Error during conversion:', error);
@@ -206,15 +214,14 @@ export class DocumentEditorComponent implements OnInit, AfterViewInit {
           }
         );
     });
-    // const a = document.createElement('a');
-    // const objectUrl = URL.createObjectURL(blob);
-    // a.href = objectUrl;
-    // a.download = 'downloaded-file';
-    // a.click();
-    // URL.revokeObjectURL(objectUrl);
   }
 
   backToDashboard() {
     this.router.navigateByUrl('/dashboard');
+  }
+  getPreviousUrl(): string | null {
+    return this.history.length > 1
+      ? this.history[this.history.length - 2]
+      : null;
   }
 }
