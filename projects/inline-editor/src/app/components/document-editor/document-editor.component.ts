@@ -4,7 +4,9 @@ import { NavigationEnd, Router } from '@angular/router';
 import {
   CustomToolbarItemModel,
   DocumentEditorContainerComponent,
+  RevisionCollection,
 } from '@syncfusion/ej2-angular-documenteditor';
+import { ToastComponent } from '@syncfusion/ej2-angular-notifications';
 import { ToolbarClickEventArgs } from '@syncfusion/ej2-angular-richtexteditor';
 import { userDetails } from 'projects/inline-editor/src/constants/userMockData';
 
@@ -29,24 +31,6 @@ export class DocumentEditorComponent implements OnInit, AfterViewInit {
     tooltipText: 'Approve Document',
     text: this.onWrapText('Approve Document'),
     id: 'Approve Document',
-  };
-  public toolTrackItem: CustomToolbarItemModel = {
-    prefixIcon: 'e-review-track-changes',
-    tooltipText: 'Track Changes',
-    text: 'Track Changes',
-    id: 'trackChanges',
-  };
-  public toolAcceptItem: CustomToolbarItemModel = {
-    prefixIcon: 'e-review-accept',
-    tooltipText: 'Accept Change',
-    text: 'Accept',
-    id: 'acceptChange',
-  };
-  public toolRejectItem: CustomToolbarItemModel = {
-    prefixIcon: 'e-review-reject',
-    tooltipText: 'Reject Change',
-    text: 'Reject',
-    id: 'rejectChange',
   };
 
   public items: any = [
@@ -84,6 +68,7 @@ export class DocumentEditorComponent implements OnInit, AfterViewInit {
     'ContentControl',
   ];
   public userInfo: any = {};
+  @ViewChild('toast') toast!: ToastComponent;
 
   constructor(private http: HttpClient, private router: Router) {
     this.router.events.subscribe((event) => {
@@ -138,17 +123,23 @@ export class DocumentEditorComponent implements OnInit, AfterViewInit {
 
   onCreated() {
     //Specifies the language id to map server side dictionary.
-    this.container.documentEditor.spellChecker.languageID = 1033;
-    this.container.documentEditor.spellChecker.removeUnderline = false;
-    this.container.documentEditor.spellChecker.allowSpellCheckAndSuggestion =
-      true;
+    // this.container.documentEditor.spellChecker.languageID = 1033;
+    // this.container.documentEditor.spellChecker.removeUnderline = false;
+    // this.container.documentEditor.spellChecker.allowSpellCheckAndSuggestion =
+    //   true;
+  }
+
+  onContentChange(event: any) {
+    console.log('onContentChange--', event);
+    this.container.documentEditor.showRevisions = true;
+    let revisions: RevisionCollection = this.container.documentEditor.revisions;
   }
   // Function to handle saving the document
   public onSaveDocument(): void {
     const editor = this.container.documentEditor;
     const documentData = editor.serialize();
     const payload = {
-      fileName: 'MyDocument.docx',
+      fileName: `${editor.documentName}.docx`,
       content: documentData,
     };
     this.http
@@ -157,9 +148,16 @@ export class DocumentEditorComponent implements OnInit, AfterViewInit {
       })
       .subscribe(
         (sfdt: string) => {
-          alert('Document Saved!');
+          this.toast.content = 'Document Saved!';
+          this.toast.title = 'Success';
+          this.toast.cssClass = 'e-toast-success';
+          this.toast.show();
         },
         (error: any) => {
+          this.toast.content = 'Something went wrong!';
+          this.toast.title = 'Error';
+          this.toast.cssClass = 'e-toast-danger';
+          this.toast.show();
           console.error('Error during conversion:', error);
           if (error.status === 0) {
             console.error('Network error or CORS issue');
@@ -200,11 +198,26 @@ export class DocumentEditorComponent implements OnInit, AfterViewInit {
         })
         .subscribe(
           (sfdt: string) => {
+            // if (this.isValidSFDTResponse(data)) {
+            //   const decodedSFDT = atob(data.sfdt); // Decode the base64-encoded SFDT
+            //   const parsedSFDT = JSON.parse(decodedSFDT); // Parse it to JSON
+            //   this.container.documentEditor.open(JSON.stringify(parsedSFDT));
+            // } else {
+            //   console.error('Invalid SFDT format:', data);
+            //   alert('Failed to import: Invalid SFDT format.');
+            // }
             this.container.documentEditor.open(sfdt);
-            alert('Document has approved!');
+            this.toast.content = 'Document has approved!';
+            this.toast.title = 'Success';
+            this.toast.cssClass = 'e-toast-success';
+            this.toast.show();
             // this.backToDashboard();
           },
           (error: any) => {
+            this.toast.content = 'Something went wrong!';
+            this.toast.title = 'Error';
+            this.toast.cssClass = 'e-toast-danger';
+            this.toast.show();
             console.error('Error during conversion:', error);
             if (error.status === 0) {
               console.error('Network error or CORS issue');
@@ -216,6 +229,23 @@ export class DocumentEditorComponent implements OnInit, AfterViewInit {
     });
   }
 
+  isValidSFDTResponse(data: any): boolean {
+    if (!data || typeof data !== 'object' || !data.sfdt) {
+      return false; // Check if sfdt key exists
+    }
+
+    try {
+      const decoded = atob(data.sfdt); // Decode base64
+      const parsed = JSON.parse(decoded); // Try parsing JSON
+      return (
+        parsed && typeof parsed === 'object' && Array.isArray(parsed.sections)
+      ); // Check essential SFDT structure
+    } catch (e) {
+      console.error('SFDT parsing error:', e);
+      return false;
+    }
+  }
+
   backToDashboard() {
     this.router.navigateByUrl('/dashboard');
   }
@@ -223,5 +253,36 @@ export class DocumentEditorComponent implements OnInit, AfterViewInit {
     return this.history.length > 1
       ? this.history[this.history.length - 2]
       : null;
+  }
+  // Trigger file input click event
+  onFileSelect(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      this.importDocument(file);
+    }
+  }
+  uploadDocument() {
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = '.docx';
+    fileInput.style.display = 'none';
+    fileInput.addEventListener('change', (event: any) =>
+      this.importDocument(event.target.files[0])
+    );
+    document.body.appendChild(fileInput);
+    fileInput.click();
+    document.body.removeChild(fileInput);
+  }
+  importDocument(file: File) {
+    const formData = new FormData();
+    formData.append('files', file);
+
+    this.http
+      .post(this.container.serviceUrl + 'Import1', formData, {
+        responseType: 'text',
+      })
+      .subscribe((sfdt: string) => {
+        this.container.documentEditor.open(sfdt);
+      });
   }
 }

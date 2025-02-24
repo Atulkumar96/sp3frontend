@@ -22,8 +22,10 @@
     "@angular/router": "^16.1.0",
     "@syncfusion/ej2-angular-buttons": "^28.2.6",
     "@syncfusion/ej2-angular-documenteditor": "^28.2.6",
+    "@syncfusion/ej2-angular-notifications": "^28.2.3",
     "@syncfusion/ej2-angular-richtexteditor": "^28.2.6",
     "@syncfusion/ej2-material-theme": "^28.2.6",
+    "@syncfusion/ej2-notifications": "^28.2.3",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.13.0"
