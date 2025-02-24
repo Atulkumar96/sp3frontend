@@ -1,0 +1,39 @@
+.side-bar-main-contaner {
+  height: calc(100% - 30px);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 15px 0px;
+  overflow: auto;
+  background: #3e8acd;
+  .sidebar-item-container {
+    height: 90px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    cursor: pointer;
+    color: #fff;
+    &:hover {
+      background: #266caa;
+    }
+  }
+}
+
+.main-route-content {
+  width: calc(100dvw - 120px);
+  height: 100%;
+  .header-container {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    height: 50px;
+    .e-icons {
+      cursor: pointer;
+    }
+    h1 {
+      margin: unset;
+    }
+  }
+}
