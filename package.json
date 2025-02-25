@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start1": "ng serve inline-editor",
+    "start2": "ng serve nercdashboard --port 4300",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
@@ -21,7 +22,9 @@
     "@angular/platform-browser-dynamic": "^16.1.0",
     "@angular/router": "^16.1.0",
     "@syncfusion/ej2-angular-buttons": "^28.2.6",
+    "@syncfusion/ej2-angular-charts": "^28.2.7",
     "@syncfusion/ej2-angular-documenteditor": "^28.2.6",
+    "@syncfusion/ej2-angular-dropdowns": "^28.2.7",
     "@syncfusion/ej2-angular-layouts": "^28.2.5",
     "@syncfusion/ej2-angular-navigations": "^28.2.6",
     "@syncfusion/ej2-angular-notifications": "^28.2.3",

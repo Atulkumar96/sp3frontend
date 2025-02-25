@@ -28,8 +28,10 @@ export class DashboardLayoutComponent {
     this.sidebar.toggle();
   }
   navigate(page: string) {
-    this.currentPage = page.charAt(0).toUpperCase() + page.slice(1);
+    this.currentPage = page;
     // this.sidebar.hide();
   }
-  onCreated(event: any) {}
+  onCreated(event: any) {
+    this.sidebar.show();
+  }
 }

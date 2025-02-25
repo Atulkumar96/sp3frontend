@@ -1,0 +1,161 @@
+<div class="home-mian-container">
+  <div class="header-container">
+    <div class="main-header-container">{{ "SP3 Compliance Platform" }}</div>
+    <div class="sub-header-container">
+      {{ "Integrated, Verified, Immutable" }}
+    </div>
+  </div>
+  <div class="chart-main-container">
+    <div class="header-pointer">
+      <span>View Upcoming Compliance Requirements</span>
+      <button ejs-button [isPrimary]="true">View All</button>
+    </div>
+    <!-- <div class="filter-field-container">
+      <div class="filter-input-fields">
+        <ejs-dropdownlist
+          id="standards"
+          #standardsFamily
+          [dataSource]="standardFamilyList"
+          (change)="dropdownChanges($event)"
+          [value]="selectedStandardFamilyData"
+          [fields]="standardFamilyMappedProperty"
+          [placeholder]="'Select'"
+        ></ejs-dropdownlist>
+      </div>
+      <div class="filter-input-fields">
+        <ejs-dropdownlist
+          id="standards"
+          #standardsFamily
+          [dataSource]="standardFamilyList"
+          (change)="dropdownChanges($event)"
+          [value]="selectedStandardFamilyData"
+          [fields]="standardFamilyMappedProperty"
+          [placeholder]="'Filter by keyword...'"
+        ></ejs-dropdownlist>
+      </div>
+      <div class="filter-input-fields">
+        <ejs-dropdownlist
+          id="standards"
+          #standardsFamily
+          [dataSource]="standardFamilyList"
+          (change)="dropdownChanges($event)"
+          [value]="selectedStandardFamilyData"
+          [fields]="standardFamilyMappedProperty"
+          [placeholder]="'Select Date Range'"
+        ></ejs-dropdownlist>
+      </div>
+      <div class="filter-input-fields">
+        <ejs-dropdownlist
+          id="standards"
+          #standardsFamily
+          [dataSource]="standardFamilyList"
+          (change)="dropdownChanges($event)"
+          [value]="selectedStandardFamilyData"
+          [fields]="standardFamilyMappedProperty"
+          [placeholder]="'Select All'"
+        ></ejs-dropdownlist>
+      </div>
+    </div> -->
+    <div class="static-widget-container">
+      <ng-container *ngFor="let data of staticWidgetDetails">
+        <div class="outer-container">
+          <div class="label-container">{{ data.label }}</div>
+          <div class="value-container">{{ data.value }}</div>
+        </div>
+      </ng-container>
+    </div>
+    <div class="chart-layout-container">
+      <ejs-dashboardlayout
+        [allowDragging]="false"
+        height="100%"
+        id="defaultLayout"
+        [columns]="5"
+        #defaultLayout
+      >
+        <e-panels>
+          <e-panel [sizeX]="3" [sizeY]="2" [row]="0" [col]="0">
+            <ng-template #content>
+              <ejs-chart
+                id="task-status-chart"
+                [primaryXAxis]="primaryXAxis"
+                [primaryYAxis]="primaryYAxis"
+                [title]="chartTitle"
+                [tooltip]="tooltip"
+              >
+                <e-series-collection>
+                  <!-- Past Due -->
+                  <e-series
+                    [dataSource]="chartData"
+                    type="StackingBar"
+                    xName="category"
+                    yName="pastDue"
+                    name="Past Due"
+                    [fill]="'#e58c3c'"
+                  >
+                  </e-series>
+                  <!-- Due in 30 days -->
+                  <e-series
+                    [dataSource]="chartData"
+                    type="StackingBar"
+                    xName="category"
+                    yName="dueIn30Days"
+                    name="Due in 30 Days"
+                    [fill]="'#dfc43a'"
+                  >
+                  </e-series>
+                  <!-- Completed -->
+                  <e-series
+                    [dataSource]="chartData"
+                    type="StackingBar"
+                    xName="category"
+                    yName="completed"
+                    name="Completed"
+                    [fill]="'#33a133'"
+                  >
+                  </e-series>
+                </e-series-collection>
+              </ejs-chart>
+            </ng-template>
+          </e-panel>
+          <e-panel [sizeX]="1" [sizeY]="1" [row]="0" [col]="3">
+            <ng-template #content>
+              <div class="indication-widget">
+                <div class="count-value">
+                  {{ complianceCountDetails.pastDue }}
+                </div>
+                <div class="title" [ngStyle]="{ color: '#e58c3c' }">
+                  Past Due
+                </div>
+              </div>
+            </ng-template>
+          </e-panel>
+          <e-panel [sizeX]="1" [sizeY]="1" [row]="0" [col]="4">
+            <ng-template #content>
+              <div class="indication-widget">
+                <div class="count-value">
+                  {{ complianceCountDetails.completed }}
+                </div>
+                <div class="title" [ngStyle]="{ color: '#33a133' }">
+                  Completed
+                </div>
+              </div>
+            </ng-template>
+          </e-panel>
+          <e-panel [sizeX]="1" [sizeY]="1" [row]="1" [col]="3">
+            <ng-template #content>
+              <div class="indication-widget">
+                <div class="count-value">
+                  {{ complianceCountDetails.thirtyDue }}
+                </div>
+                <div class="title" [ngStyle]="{ color: '#dfc43a' }">
+                  Due in 30 days
+                </div>
+              </div>
+            </ng-template>
+          </e-panel>
+          <e-panel [sizeX]="1" [sizeY]="1" [row]="1" [col]="4"> </e-panel>
+        </e-panels>
+      </ejs-dashboardlayout>
+    </div>
+  </div>
+</div>

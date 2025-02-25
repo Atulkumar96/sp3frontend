@@ -12,7 +12,7 @@
         class="sidebar-item-container"
         (click)="navigate(bar.itemName)"
         [ngStyle]="{
-          background: currentPage == bar.itemName ? '#266caa' : 'transparency'
+          background: currentPage == bar.itemName ? '#266caa' : '#3e8acd'
         }"
       >
         <span [ngClass]="['e-icons', bar.icon, 'e-large']"></span>
@@ -24,11 +24,5 @@
 
 <!-- Main content -->
 <div class="main-route-content">
-  <div class="header-container">
-    <span
-      class="e-icons e-table-of-content e-large"
-      (click)="toggleSidebar()"
-    ></span>
-    <h1>{{ currentPage }}</h1>
-  </div>
+  <app-home *ngIf="currentPage == 'Home'"></app-home>
 </div>

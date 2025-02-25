@@ -16,24 +16,13 @@
     cursor: pointer;
     color: #fff;
     &:hover {
-      background: #266caa;
+      background: #266caa !important;
     }
   }
 }
 
 .main-route-content {
-  width: calc(100dvw - 120px);
+  width: calc(100dvw - 117px);
   height: 100%;
-  .header-container {
-    display: flex;
-    gap: 20px;
-    align-items: center;
-    height: 50px;
-    .e-icons {
-      cursor: pointer;
-    }
-    h1 {
-      margin: unset;
-    }
-  }
+  // padding: 0px 50px;
 }

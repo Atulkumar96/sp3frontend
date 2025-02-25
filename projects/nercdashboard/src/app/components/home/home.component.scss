@@ -1,0 +1,129 @@
+.home-mian-container {
+  background: #bbe6f7;
+  height: 100%;
+}
+
+.header-container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  height: 100px;
+  background: #fff;
+  padding: 0px 50px;
+  border-radius: 0px 0px 30px 30px;
+  border-bottom: 1px solid rgb(38, 108, 170);
+  .e-icons {
+    cursor: pointer;
+  }
+  h1 {
+    margin: unset;
+  }
+  .main-header-container {
+    font-size: x-large;
+  }
+  .sub-header-container {
+    font-size: smaller;
+    color: rgb(62, 138, 205);
+    font-weight: 600;
+  }
+}
+
+.chart-main-container {
+  height: calc(100% - 121px);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px 50px;
+  .header-pointer {
+    height: 40px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    span {
+      font-size: smaller;
+      font-weight: 500;
+    }
+    button {
+      background: rgb(38, 108, 170) !important;
+      border-radius: 15px;
+    }
+  }
+  .filter-field-container {
+    height: 50px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 10px;
+  }
+  .static-widget-container {
+    height: 120px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    .outer-container {
+      background: #fff;
+      display: flex;
+      border-radius: 10px;
+      gap: 10px;
+      align-items: center;
+      justify-content: center;
+      .label-container {
+        width: 55%;
+        text-align: left;
+        font-size: 16px;
+        padding-left: 20px;
+        font-weight: 500;
+        border-right: 1px solid;
+      }
+      .value-container {
+        font-size: 12px;
+        width: 45%;
+        font-weight: 500;
+      }
+    }
+  }
+  .chart-layout-container {
+    height: calc(100% - 116px);
+    width: 100%;
+    // overflow: auto;
+    #defaultLayout {
+      height: 100% !important;
+      width: 100% !important;
+      ::ng-deep {
+        .e-panel {
+          //   max-height: 100% !important;
+          border-radius: 10px;
+        }
+      }
+    }
+  }
+}
+
+#bar-chart {
+  width: 100%;
+  height: 100%;
+}
+
+.indication-widget {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  .count-value {
+    flex: 2;
+    text-align: center;
+    justify-content: center;
+    display: flex;
+    align-items: end;
+    border-bottom: 1px solid;
+    font-size: 112px;
+  }
+  .title {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 35px;
+    color: #33a133;
+    border-bottom: 1px solid black;
+    border-radius: 10px;
+  }
+}
