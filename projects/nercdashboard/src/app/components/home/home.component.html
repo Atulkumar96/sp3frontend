@@ -64,14 +64,14 @@
         </div>
       </ng-container>
     </div>
-    <div class="chart-layout-container">
+    <!-- <div class="chart-layout-container">
       <ejs-dashboardlayout
         [allowDragging]="false"
         height="100%"
         [cellSpacing]="cellSpacing"
         id="defaultLayout"
         [mediaQuery]="mediaQuery"
-        [cellAspectRatio]="1.3"
+        [cellAspectRatio]="1.7"
         [columns]="5"
         #defaultLayout
       >
@@ -86,7 +86,6 @@
                 [tooltip]="tooltip"
               >
                 <e-series-collection>
-                  <!-- Past Due -->
                   <e-series
                     [dataSource]="chartData"
                     type="StackingBar"
@@ -96,7 +95,6 @@
                     [fill]="'#e58c3c'"
                   >
                   </e-series>
-                  <!-- Due in 30 days -->
                   <e-series
                     [dataSource]="chartData"
                     type="StackingBar"
@@ -106,7 +104,6 @@
                     [fill]="'#dfc43a'"
                   >
                   </e-series>
-                  <!-- Completed -->
                   <e-series
                     [dataSource]="chartData"
                     type="StackingBar"
@@ -184,6 +181,99 @@
           </e-panel>
         </e-panels>
       </ejs-dashboardlayout>
+    </div> -->
+    <div class="widgets-sction-container">
+      <div
+        class="task-chart-section-container"
+        [ngStyle]="{ width: '100%', height: '100%' }"
+      >
+        <ejs-chart
+          id="task-status-chart"
+          [height]="'100%'"
+          [width]="'100%'"
+          [primaryXAxis]="primaryXAxis"
+          [primaryYAxis]="primaryYAxis"
+          [title]="chartTitle"
+          (loaded)="chartLoaded($event)"
+          [tooltip]="tooltip"
+        >
+          <e-series-collection>
+            <e-series
+              [dataSource]="chartData"
+              type="StackingBar"
+              xName="category"
+              yName="pastDue"
+              name="Past Due"
+              [fill]="'#e58c3c'"
+            >
+            </e-series>
+            <e-series
+              [dataSource]="chartData"
+              type="StackingBar"
+              xName="category"
+              yName="dueIn30Days"
+              name="Due in 30 Days"
+              [fill]="'#dfc43a'"
+            >
+            </e-series>
+            <e-series
+              [dataSource]="chartData"
+              type="StackingBar"
+              xName="category"
+              yName="completed"
+              name="Completed"
+              [fill]="'#33a133'"
+            >
+            </e-series>
+          </e-series-collection>
+        </ejs-chart>
+      </div>
+      <div class="dynamic-widgets-container">
+        <div class="widget-container">
+          <div
+            class="indication-widget"
+            (click)="
+              getWidgetDetails(complianceCountDetails.pastDue, 'pastDue')
+            "
+          >
+            <div class="count-value">
+              {{ complianceCountDetails.pastDue }}
+            </div>
+            <div class="title" [ngStyle]="{ color: '#e58c3c' }">Past Due</div>
+          </div>
+        </div>
+        <div class="widget-container">
+          <div
+            class="indication-widget"
+            (click)="
+              getWidgetDetails(complianceCountDetails.completed, 'completed')
+            "
+          >
+            <div class="count-value">
+              {{ complianceCountDetails.completed }}
+            </div>
+            <div class="title" [ngStyle]="{ color: '#33a133' }">Completed</div>
+          </div>
+        </div>
+        <div class="widget-container">
+          <div
+            class="indication-widget"
+            (click)="
+              getWidgetDetails(complianceCountDetails.thirtyDue, 'thirtyDue')
+            "
+          >
+            <div class="count-value">
+              {{ complianceCountDetails.thirtyDue }}
+            </div>
+            <div class="title" [ngStyle]="{ color: '#dfc43a' }">
+              Due in 30 days
+            </div>
+          </div>
+        </div>
+        <div class="widget-container">
+          <app-reliability-score [score]="80"></app-reliability-score>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -191,7 +281,7 @@
 <ejs-toast
   #toast
   [showCloseButton]="true"
-  [timeOut]="3000"
+  [timeOut]="1000"
   [position]="{ X: 'Right', Y: 'Top' }"
 >
 </ejs-toast>

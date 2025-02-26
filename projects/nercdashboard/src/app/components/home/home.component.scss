@@ -99,6 +99,34 @@
       }
     }
   }
+  .widgets-sction-container {
+    height: calc(100% - 180px);
+    display: grid;
+    grid-template-columns: calc(65% - 5px) calc(35% - 5px);
+    gap: 10px;
+    .task-chart-section-container {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    .dynamic-widgets-container {
+      display: grid;
+      grid-template-rows: repeat(2, calc(50% - 6px));
+      grid-auto-flow: column;
+      overflow-x: auto;
+      grid-auto-columns: minmax(calc(50% - 5px), auto);
+      height: 100%;
+      gap: 10px;
+      &::-webkit-scrollbar {
+        display: none;
+      }
+      .widget-container {
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+    }
+  }
 }
 
 #bar-chart {
@@ -131,4 +159,19 @@
     border-bottom: 1px solid black;
     border-radius: 10px;
   }
+}
+
+.toater-past-due {
+  background-color: #e58c3c;
+  color: #fff;
+}
+
+.toater-completed {
+  background-color: #33a133;
+  color: #fff;
+}
+
+.toater-30days {
+  background-color: #dfc43a;
+  color: #fff;
 }
