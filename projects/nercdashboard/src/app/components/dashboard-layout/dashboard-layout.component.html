@@ -23,6 +23,9 @@
 </ejs-sidebar>
 
 <!-- Main content -->
-<div class="main-route-content">
+<div
+  class="main-route-content"
+  [ngStyle]="{ width: sidebar.isOpen ? 'calc(100dvw - 100px)' : '100dvw' }"
+>
   <app-home *ngIf="currentPage == 'Home'"></app-home>
 </div>

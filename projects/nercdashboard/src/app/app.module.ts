@@ -10,9 +10,16 @@ import { ButtonModule } from '@syncfusion/ej2-angular-buttons';
 import { DropDownListModule } from '@syncfusion/ej2-angular-dropdowns';
 import { DashboardLayoutModule } from '@syncfusion/ej2-angular-layouts';
 import { ChartAllModule, ChartModule } from '@syncfusion/ej2-angular-charts';
+import { ReliabilityScoreComponent } from './components/reliability-score/reliability-score.component';
+import { ToastModule } from '@syncfusion/ej2-angular-notifications';
 
 @NgModule({
-  declarations: [AppComponent, DashboardLayoutComponent, HomeComponent],
+  declarations: [
+    AppComponent,
+    DashboardLayoutComponent,
+    HomeComponent,
+    ReliabilityScoreComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -22,6 +29,7 @@ import { ChartAllModule, ChartModule } from '@syncfusion/ej2-angular-charts';
     DashboardLayoutModule,
     ChartModule,
     ChartAllModule,
+    ToastModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

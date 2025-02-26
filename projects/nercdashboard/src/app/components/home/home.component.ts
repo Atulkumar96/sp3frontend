@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ChartTheme, ILoadedEventArgs } from '@syncfusion/ej2-angular-charts';
+import { ToastComponent } from '@syncfusion/ej2-angular-notifications';
 
 @Component({
   selector: 'app-home',
@@ -7,6 +8,7 @@ import { ChartTheme, ILoadedEventArgs } from '@syncfusion/ej2-angular-charts';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
+  @ViewChild('toast') toast!: ToastComponent;
   standardFamilyList: any = [
     {
       id: 1,
@@ -23,11 +25,15 @@ export class HomeComponent implements OnInit {
 
   // Task data
   public chartData: Object[] = [
-    { category: 'ADMIN', pastDue: 5, dueIn30Days: 3, completed: 10 },
-    { category: 'IRO', pastDue: 8, dueIn30Days: 4, completed: 7 },
-    { category: 'VAR', pastDue: 6, dueIn30Days: 5, completed: 8 },
-    { category: 'TOP', pastDue: 4, dueIn30Days: 6, completed: 12 },
-    { category: 'PER', pastDue: 3, dueIn30Days: 7, completed: 9 },
+    { category: 'MOD', pastDue: 2, dueIn30Days: 12, completed: 15 },
+    { category: 'PRC', pastDue: 1, dueIn30Days: 3, completed: 8 },
+    { category: 'CIP', pastDue: 4, dueIn30Days: 0, completed: 12 },
+    { category: 'EOP', pastDue: 1, dueIn30Days: 8, completed: 9 },
+    { category: 'PER', pastDue: 2, dueIn30Days: 10, completed: 17 },
+    { category: 'TOP', pastDue: 3, dueIn30Days: 5, completed: 8 },
+    { category: 'VAR', pastDue: 5, dueIn30Days: 8, completed: 15 },
+    { category: 'IRO', pastDue: 2, dueIn30Days: 7, completed: 16 },
+    { category: 'ADMIN', pastDue: 2, dueIn30Days: 10, completed: 15 },
   ];
 
   public primaryXAxis: Object = {
@@ -73,6 +79,8 @@ export class HomeComponent implements OnInit {
       value: 'Low impact/PIC ROC',
     },
   ];
+  public cellSpacing: number[] = [10, 10];
+  public mediaQuery: string = 'max-height: 100%';
 
   ngOnInit(): void {
     this.complianceCountDetails.pastDue = this.chartData.reduce(
@@ -90,4 +98,20 @@ export class HomeComponent implements OnInit {
   }
 
   dropdownChanges(event: any) {}
+  getWidgetDetails(count: any, type: any) {
+    this.toast.content = count;
+    switch (type) {
+      case 'pastDue':
+        this.toast.title = 'Past Due';
+        break;
+      case 'completed':
+        this.toast.title = 'Completed';
+        break;
+      case 'thirtyDue':
+        this.toast.title = 'Due in 30 days';
+        break;
+    }
+    this.toast.cssClass = 'e-toast-success';
+    this.toast.show();
+  }
 }

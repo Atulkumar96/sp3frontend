@@ -68,7 +68,10 @@
       <ejs-dashboardlayout
         [allowDragging]="false"
         height="100%"
+        [cellSpacing]="cellSpacing"
         id="defaultLayout"
+        [mediaQuery]="mediaQuery"
+        [cellAspectRatio]="1.3"
         [columns]="5"
         #defaultLayout
       >
@@ -119,7 +122,12 @@
           </e-panel>
           <e-panel [sizeX]="1" [sizeY]="1" [row]="0" [col]="3">
             <ng-template #content>
-              <div class="indication-widget">
+              <div
+                class="indication-widget"
+                (change)="
+                  getWidgetDetails(complianceCountDetails.pastDue, 'pastDue')
+                "
+              >
                 <div class="count-value">
                   {{ complianceCountDetails.pastDue }}
                 </div>
@@ -131,7 +139,15 @@
           </e-panel>
           <e-panel [sizeX]="1" [sizeY]="1" [row]="0" [col]="4">
             <ng-template #content>
-              <div class="indication-widget">
+              <div
+                class="indication-widget"
+                (change)="
+                  getWidgetDetails(
+                    complianceCountDetails.completed,
+                    'completed'
+                  )
+                "
+              >
                 <div class="count-value">
                   {{ complianceCountDetails.completed }}
                 </div>
@@ -143,7 +159,15 @@
           </e-panel>
           <e-panel [sizeX]="1" [sizeY]="1" [row]="1" [col]="3">
             <ng-template #content>
-              <div class="indication-widget">
+              <div
+                class="indication-widget"
+                (change)="
+                  getWidgetDetails(
+                    complianceCountDetails.thirtyDue,
+                    'thirtyDue'
+                  )
+                "
+              >
                 <div class="count-value">
                   {{ complianceCountDetails.thirtyDue }}
                 </div>
@@ -153,9 +177,21 @@
               </div>
             </ng-template>
           </e-panel>
-          <e-panel [sizeX]="1" [sizeY]="1" [row]="1" [col]="4"> </e-panel>
+          <e-panel [sizeX]="1" [sizeY]="1" [row]="1" [col]="4">
+            <ng-template #content>
+              <app-reliability-score [score]="80"></app-reliability-score>
+            </ng-template>
+          </e-panel>
         </e-panels>
       </ejs-dashboardlayout>
     </div>
   </div>
 </div>
+
+<ejs-toast
+  #toast
+  [showCloseButton]="true"
+  [timeOut]="3000"
+  [position]="{ X: 'Right', Y: 'Top' }"
+>
+</ejs-toast>

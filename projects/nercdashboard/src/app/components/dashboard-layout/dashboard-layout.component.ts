@@ -33,5 +33,6 @@ export class DashboardLayoutComponent {
   }
   onCreated(event: any) {
     this.sidebar.show();
+    this.sidebar.isOpen;
   }
 }
