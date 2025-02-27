@@ -29,11 +29,11 @@
 }
 
 .chart-main-container {
-  height: calc(100% - 121px);
+  height: calc(100% - 131px);
   display: flex;
   flex-direction: column;
   gap: 10px;
-  padding: 10px 50px;
+  padding: 10px 25px 20px 25px;
   .header-pointer {
     height: 40px;
     display: flex;
@@ -100,7 +100,7 @@
     }
   }
   .widgets-sction-container {
-    height: calc(100% - 180px);
+    height: calc(100% - 167px);
     display: grid;
     grid-template-columns: calc(65% - 5px) calc(35% - 5px);
     gap: 10px;
